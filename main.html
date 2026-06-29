@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotless Luxury Auto Care CarWash – Ocho Rios, Jamaica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0A0F1E;
+    --navy-mid: #1A2035;
+    --navy-light: #243050;
+    --white: #F5F5F0;
+    --aqua: #00C4B4;
+    --gold: #C9A84C;
+    --gold-light: #E2C97E;
+    --muted: #8A94B2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 1.5rem;
+    background: rgba(10,15,30,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 1.2;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+
+  .nav-call {
+    display: flex; align-items: center; gap: 0.4rem;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 0.55rem 1.1rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .nav-call:hover { background: var(--gold-light); }
+
+  /* Hamburger */
+  .hamburger {
+    width: 44px; height: 44px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    cursor: pointer; background: none; border: none; padding: 0;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 1.5px;
+    background: var(--white);
+    transition: transform 0.3s, opacity 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile drawer */
+  .nav-drawer {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--navy);
+    z-index: 190;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .nav-drawer.open { transform: translateX(0); }
+
+  .drawer-link {
+    display: block;
+    width: 100%;
+    padding: 1.4rem 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--white);
+    text-decoration: none;
+    text-align: center;
+    border-bottom: 1px solid rgba(138,148,178,0.1);
+    transition: color 0.2s;
+  }
+  .drawer-link:hover { color: var(--gold); }
+
+  .drawer-cta {
+    margin-top: 2rem;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 1rem 2.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 600px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 55% 45%, #1a3a6e 0%, var(--navy) 65%);
+  }
+
+  .ripple-container { position: absolute; inset: 0; pointer-events: none; }
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,196,180,0.15);
+    animation: rippleOut 6s ease-out infinite;
+  }
+  .ripple:nth-child(1) { width: 200px; height: 200px; top:50%; left:50%; transform:translate(-50%,-50%); animation-delay:0s; }
+  .ripple:nth-child(2) { width: 380px; height: 380px; top:50%; left:50%; transform:translate(-50%,-50%); animation-delay:1.5s; }
+  .ripple:nth-child(3) { width: 560px; height: 560px; top:50%; left:50%; transform:translate(-50%,-50%); animation-delay:3s; }
+  .ripple:nth-child(4) { width: 740px; height: 740px; top:50%; left:50%; transform:translate(-50%,-50%); animation-delay:4.5s; }
+  @keyframes rippleOut {
+    0%   { opacity:0.6; transform:translate(-50%,-50%) scale(0.4); }
+    100% { opacity:0;   transform:translate(-50%,-50%) scale(1); }
+  }
+
+  .shimmer-line {
+    position: absolute; top: 40%; left: -60%;
+    width: 55%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.7), transparent);
+    animation: streakAcross 5s ease-in-out infinite;
+    animation-delay: 1s;
+  }
+  @keyframes streakAcross {
+    0%   { left:-60%; opacity:0; }
+    25%  { opacity:1; }
+    75%  { opacity:1; }
+    100% { left:110%; opacity:0; }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 1.5rem;
+    max-width: 700px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    color: var(--aqua);
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 12vw, 5.8rem);
+    font-weight: 300;
+    line-height: 1.02;
+    color: var(--white);
+    margin-bottom: 1.1rem;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: clamp(0.9rem, 3.5vw, 1rem);
+    line-height: 1.75;
+    max-width: 420px;
+    margin: 0 auto 2.4rem;
+  }
+
+  .hero-btns {
+    display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 1rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    font-weight: 500;
+    transition: background 0.2s;
+    min-height: 48px;
+    display: inline-flex; align-items: center;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--white);
+    padding: 1rem 2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(245,245,240,0.3);
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    min-height: 48px;
+    display: inline-flex; align-items: center;
+    transition: border-color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--white); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: var(--muted); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+    animation: scrollBounce 2.2s ease-in-out infinite;
+  }
+  .hero-scroll::after {
+    content:''; display:block; width:1px; height:30px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  @keyframes scrollBounce {
+    0%,100% { transform:translateX(-50%) translateY(0); }
+    50%      { transform:translateX(-50%) translateY(6px); }
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-item {
+    padding: 1.8rem 1rem;
+    text-align: center;
+    border-right: 1px solid rgba(138,148,178,0.12);
+  }
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: clamp(0.6rem, 2vw, 0.72rem);
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 5rem 1.5rem; }
+  @media (min-width: 700px) { section { padding: 7rem 4rem; } }
+
+  .section-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    color: var(--aqua);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 3rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: rgba(138,148,178,0.08);
+  }
+  @media (min-width: 560px) { .services-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (min-width: 900px) { .services-grid { grid-template-columns: repeat(4,1fr); } }
+
+  .service-card {
+    background: var(--navy);
+    padding: 2.5rem 2rem;
+    transition: background 0.3s, transform 0.3s;
+    cursor: default;
+  }
+  .service-card:active { background: var(--navy-mid); transform: scale(0.98); }
+  @media (hover: hover) { .service-card:hover { background: var(--navy-mid); } }
+
+  .service-icon { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+  }
+
+  .service-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  /* ── WHY US ── */
+  .why-section {
+    background: var(--navy-mid);
+  }
+
+  /* animated wash visual */
+  .wash-visual {
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 3rem;
+    aspect-ratio: 4/3;
+    border-radius: 4px;
+    background: var(--navy-light);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  @media (min-width: 900px) {
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .wash-visual { margin: 0; max-width: 100%; }
+  }
+
+  .wash-car { font-size: 5rem; animation: carPulse 3s ease-in-out infinite; position: relative; z-index: 2; }
+  @keyframes carPulse {
+    0%,100% { filter: drop-shadow(0 0 18px rgba(0,196,180,0.25)); }
+    50%      { filter: drop-shadow(0 0 36px rgba(0,196,180,0.55)) drop-shadow(0 0 50px rgba(201,168,76,0.2)); }
+  }
+
+  .wash-drops {
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 10px;
+  }
+  .wash-drop {
+    width: 2px; border-radius: 2px; background: var(--aqua); opacity: 0;
+    animation: dropFall 1.8s ease-in infinite;
+  }
+  .wash-drop:nth-child(1){height:12px;animation-delay:0s}
+  .wash-drop:nth-child(2){height:16px;animation-delay:0.3s}
+  .wash-drop:nth-child(3){height:10px;animation-delay:0.6s}
+  .wash-drop:nth-child(4){height:14px;animation-delay:0.15s}
+  .wash-drop:nth-child(5){height:12px;animation-delay:0.45s}
+  .wash-drop:nth-child(6){height:16px;animation-delay:0.75s}
+  .wash-drop:nth-child(7){height:11px;animation-delay:0.2s}
+  @keyframes dropFall {
+    0%  { opacity:0; transform:translateY(0); }
+    20% { opacity:0.9; }
+    100%{ opacity:0; transform:translateY(70px); }
+  }
+
+  .wash-label {
+    position: absolute; bottom: 1.2rem; left: 1.2rem; right: 1.2rem;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 0.95rem; color: rgba(245,245,240,0.35);
+    border-top: 1px solid rgba(138,148,178,0.2); padding-top: 0.8rem;
+  }
+
+  /* splash rings inside visual */
+  .wash-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0,196,180,0.1);
+    top: 50%; left: 50%;
+    animation: washRing 4s ease-out infinite;
+  }
+  .wash-ring:nth-child(1) { width:80px; height:80px; transform:translate(-50%,-50%); animation-delay:0s; }
+  .wash-ring:nth-child(2) { width:140px; height:140px; transform:translate(-50%,-50%); animation-delay:1s; }
+  .wash-ring:nth-child(3) { width:200px; height:200px; transform:translate(-50%,-50%); animation-delay:2s; }
+  @keyframes washRing {
+    0%   { opacity:0.5; transform:translate(-50%,-50%) scale(0.5); }
+    100% { opacity:0;   transform:translate(-50%,-50%) scale(1); }
+  }
+
+  .why-list { display: flex; flex-direction: column; gap: 1.8rem; }
+  .why-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .why-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--gold); font-weight: 300;
+    min-width: 1.8rem; padding-top: 0.1rem;
+  }
+  .why-text h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 400; margin-bottom: 0.35rem;
+  }
+  .why-text p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+
+  /* ── TESTIMONIALS (swipeable on mobile) ── */
+  .testi-section { overflow: hidden; }
+
+  .testi-track-wrap {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    cursor: grab;
+  }
+  .testi-track-wrap::-webkit-scrollbar { display: none; }
+  .testi-track-wrap.grabbing { cursor: grabbing; }
+
+  .testi-card {
+    scroll-snap-align: start;
+    flex: 0 0 calc(90vw - 3rem);
+    max-width: 360px;
+    background: var(--navy-mid);
+    padding: 2.2rem;
+    border-top: 2px solid var(--gold);
+    border-radius: 2px;
+    transition: transform 0.2s;
+  }
+  @media (min-width: 700px) { .testi-card { flex: 0 0 300px; } }
+
+  .testi-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 1rem; }
+  .testi-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-style: italic; font-weight: 300;
+    line-height: 1.6; color: var(--white); margin-bottom: 1.3rem;
+  }
+  .testi-author { font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+
+  .testi-dots {
+    display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.5rem;
+  }
+  .testi-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted); border: none; padding: 0; cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .testi-dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* ── BOOK BANNER ── */
+  .book-banner {
+    background: linear-gradient(135deg, #0d3a6e 0%, #0A0F1E 60%, #0e2e22 100%);
+    padding: 5rem 1.5rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  @media (min-width: 700px) { .book-banner { padding: 6rem 4rem; } }
+  .book-banner::before {
+    content:''; position:absolute; top:-100px; left:50%; transform:translateX(-50%);
+    width:500px; height:500px; border-radius:50%;
+    background: radial-gradient(circle, rgba(0,196,180,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .book-banner h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem,6vw,3rem); font-weight:300;
+    margin-bottom: 0.8rem; position:relative;
+  }
+  .book-banner p { color: var(--muted); font-size:0.95rem; margin-bottom:2rem; position:relative; }
+
+  .btn-big {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--gold); color: var(--navy);
+    padding: 1.1rem 2.5rem;
+    font-size: 0.88rem; letter-spacing: 0.12em; text-transform: uppercase;
+    border: none; cursor: pointer; text-decoration: none;
+    border-radius: 2px; font-weight: 500; min-height: 52px;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .btn-big:hover { background: var(--gold-light); }
+
+  /* ── HOURS + CONTACT ── */
+  .info-section {
+    background: var(--navy-mid);
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 700px) { .info-section { grid-template-columns: 1fr 1fr; } }
+
+  .info-col {
+    padding: 3rem 1.5rem;
+    border-bottom: 1px solid rgba(138,148,178,0.12);
+  }
+  @media (min-width: 700px) {
+    .info-col { padding: 4rem; border-bottom: none; }
+    .info-col:first-child { border-right: 1px solid rgba(138,148,178,0.12); }
+  }
+
+  .info-col h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; margin-bottom: 1.8rem;
+  }
+
+  .hours-table { width:100%; border-collapse:collapse; }
+  .hours-table tr { border-bottom:1px solid rgba(138,148,178,0.1); }
+  .hours-table td { padding:0.85rem 0; font-size:0.88rem; color:var(--muted); }
+  .hours-table td:last-child { text-align:right; color:var(--white); }
+  .hours-table tr.today td { color:var(--aqua); font-weight:500; }
+
+  .contact-list { list-style:none; display:flex; flex-direction:column; gap:1.2rem; }
+  .contact-list li { display:flex; gap:0.9rem; align-items:flex-start; font-size:0.9rem; line-height:1.6; color:var(--muted); }
+  .c-icon { color:var(--gold); font-size:1.05rem; min-width:1.4rem; margin-top:0.1rem; }
+  .contact-list a { color:var(--white); text-decoration:none; transition:color 0.2s; }
+  .contact-list a:hover { color:var(--aqua); }
+
+  .map-cta {
+    display: inline-flex; align-items:center; gap:0.5rem;
+    margin-top: 1.8rem;
+    color: var(--aqua); font-size:0.8rem; letter-spacing:0.12em;
+    text-transform:uppercase; text-decoration:none;
+    border-bottom:1px solid rgba(0,196,180,0.3); padding-bottom:0.2rem;
+    transition: border-color 0.2s;
+  }
+  .map-cta:hover { border-color:var(--aqua); }
+
+  /* ── FLOATING CALL BUTTON (mobile) ── */
+  .float-call {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 150;
+    background: var(--gold);
+    color: var(--navy);
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    display: flex; align-items:center; justify-content:center;
+    font-size: 1.4rem;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.45);
+    animation: floatPulse 2.5s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+  .float-call:active { transform: scale(0.92); }
+  @keyframes floatPulse {
+    0%,100% { box-shadow: 0 4px 20px rgba(201,168,76,0.45); }
+    50%      { box-shadow: 0 4px 32px rgba(201,168,76,0.75); }
+  }
+  @media (min-width: 900px) { .float-call { display: none; } }
+
+  /* ── SCROLL-IN ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 1.5rem;
+    display: flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.8rem;
+    border-top: 1px solid rgba(138,148,178,0.12);
+  }
+  @media (min-width:700px) { footer { padding: 2.5rem 4rem; } }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; letter-spacing:0.15em; color:var(--gold); text-transform:uppercase;
+  }
+  .footer-copy { font-size:0.75rem; color:var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+    .reveal { opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating call button (mobile) -->
+<a href="tel:+18764701268" class="float-call" aria-label="Call us">📞</a>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Spotless<br>Luxury</a>
+  <div class="nav-right">
+    <a href="tel:+18764701268" class="nav-call">📞 Call Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-drawer" id="drawer">
+  <a href="#services" class="drawer-link" onclick="closeDrawer()">Services</a>
+  <a href="#why" class="drawer-link" onclick="closeDrawer()">Why Us</a>
+  <a href="#reviews" class="drawer-link" onclick="closeDrawer()">Reviews</a>
+  <a href="#contact" class="drawer-link" onclick="closeDrawer()">Contact</a>
+  <a href="tel:+18764701268" class="drawer-cta">Call +1 876-470-1268</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="ripple-container">
+    <div class="ripple"></div><div class="ripple"></div>
+    <div class="ripple"></div><div class="ripple"></div>
+  </div>
+  <div class="shimmer-line"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Ocho Rios, Jamaica · Premium Auto Care</p>
+    <h1 class="hero-title">Your Car,<br><em>Spotless.</em></h1>
+    <p class="hero-sub">Where Caribbean sunshine meets meticulous care — from a fast express wash to a full luxury detail.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">Our Services</a>
+      <a href="tel:+18764701268" class="btn-ghost">📞 Call Us</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-num">5★</div>
+    <div class="stat-label">Rated</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <div class="stat-num">7</div>
+    <div class="stat-label">Days/Week</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Hand Done</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <div class="stat-num">8pm</div>
+    <div class="stat-label">Open Late</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-eyebrow reveal">What We Offer</p>
+  <h2 class="section-title reveal reveal-delay-1">Every wash,<br>a <em>fresh start</em></h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">💧</span>
+      <h3 class="service-name">Express Wash</h3>
+      <p class="service-desc">A thorough exterior rinse and hand-dry to get you back on the road looking immaculate — fast.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <span class="service-icon">✨</span>
+      <h3 class="service-name">Full Detail</h3>
+      <p class="service-desc">Interior vacuum, dashboard wipe-down, window polish, and a deep exterior clean. Head-to-toe care.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <span class="service-icon">🛡️</span>
+      <h3 class="service-name">Wax & Polish</h3>
+      <p class="service-desc">Protect your paint with a professional coat that repels dust, UV rays, and tropical humidity.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <span class="service-icon">🪞</span>
+      <h3 class="service-name">Luxury Package</h3>
+      <p class="service-desc">Full detail, wax, tyre shine, and a deodorizing treatment. Our signature, all-in experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-section" id="why">
+  <div class="why-inner">
+    <div class="wash-visual reveal">
+      <div class="wash-ring"></div>
+      <div class="wash-ring"></div>
+      <div class="wash-ring"></div>
+      <div class="wash-drops">
+        <div class="wash-drop"></div><div class="wash-drop"></div><div class="wash-drop"></div>
+        <div class="wash-drop"></div><div class="wash-drop"></div><div class="wash-drop"></div>
+        <div class="wash-drop"></div>
+      </div>
+      <div class="wash-car">🚘</div>
+      <div class="wash-label">Every vehicle hand-finished to perfection</div>
+    </div>
+    <div>
+      <p class="section-eyebrow reveal">Why Choose Us</p>
+      <h2 class="section-title reveal reveal-delay-1">Built on <em>trust,</em><br>driven by detail</h2>
+      <div class="why-list">
+        <div class="why-item reveal">
+          <div class="why-num">I</div>
+          <div class="why-text">
+            <h4>Expert Hands, Every Time</h4>
+            <p>Trained in professional detailing — not just a spray and wipe. Your car gets the real treatment.</p>
+          </div>
+        </div>
+        <div class="why-item reveal reveal-delay-1">
+          <div class="why-num">II</div>
+          <div class="why-text">
+            <h4>Open When You Need Us</h4>
+            <p>Every day until 8 PM on Exchange Road, Whiteriver — fit us into any schedule.</p>
+          </div>
+        </div>
+        <div class="why-item reveal reveal-delay-2">
+          <div class="why-num">III</div>
+          <div class="why-text">
+            <h4>Premium Products</h4>
+            <p>High-quality solutions, gentle on your paint and tough on dirt — safe for Jamaica's environment.</p>
+          </div>
+        </div>
+        <div class="why-item reveal reveal-delay-3">
+          <div class="why-num">IV</div>
+          <div class="why-text">
+            <h4>Satisfaction Guaranteed</h4>
+            <p>If it isn't spotless, we make it right. Every single time you drive in.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section" id="reviews">
+  <p class="section-eyebrow reveal">What Clients Say</p>
+  <h2 class="section-title reveal reveal-delay-1">The <em>proof</em> is in the shine</h2>
+  <div class="testi-track-wrap" id="testiTrack">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Best car wash in Ocho Rios by far. My SUV looked showroom-new. Worth every time."</p>
+      <p class="testi-author">— Marcus T., Ocho Rios</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Professional, fast, and the detail on my interior was incredible. I won't go anywhere else."</p>
+      <p class="testi-author">— Kezia R., St. Ann</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"They stayed late to finish my car properly. That kind of dedication is rare. Highly recommend."</p>
+      <p class="testi-author">— Devon M., Kingston</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"My rental car came back looking better than when I picked it up. Incredible service in paradise."</p>
+      <p class="testi-author">— Sarah O., Tourist</p>
+    </div>
+  </div>
+  <div class="testi-dots" id="testiDots">
+    <button class="testi-dot active" data-i="0"></button>
+    <button class="testi-dot" data-i="1"></button>
+    <button class="testi-dot" data-i="2"></button>
+    <button class="testi-dot" data-i="3"></button>
+  </div>
+</section>
+
+<!-- BOOK BANNER -->
+<section class="book-banner">
+  <h2>Ready for a <em style="font-style:italic;color:var(--gold)">spotless</em> ride?</h2>
+  <p>Drop by today — no appointment needed.</p>
+  <a href="tel:+18764701268" class="btn-big">📞 &nbsp;+1 876-470-1268</a>
+</section>
+
+<!-- HOURS + CONTACT -->
+<section class="info-section" id="contact">
+  <div class="info-col">
+    <h3>Opening Hours</h3>
+    <table class="hours-table">
+      <tr class="today"><td>Monday</td><td>Open · Closes 8 pm</td></tr>
+      <tr><td>Tuesday</td><td>Open · Closes 8 pm</td></tr>
+      <tr><td>Wednesday</td><td>Open · Closes 8 pm</td></tr>
+      <tr><td>Thursday</td><td>Open · Closes 8 pm</td></tr>
+      <tr><td>Friday</td><td>Open · Closes 8 pm</td></tr>
+      <tr><td>Saturday</td><td>Open · Closes 8 pm</td></tr>
+      <tr><td>Sunday</td><td>Open · Closes 8 pm</td></tr>
+    </table>
+  </div>
+  <div class="info-col">
+    <h3>Find Us</h3>
+    <ul class="contact-list">
+      <li>
+        <span class="c-icon">📍</span>
+        <span>CW4H+XW6, Whiteriver,<br>Exchange Rd, Ocho Rios, Jamaica</span>
+      </li>
+      <li>
+        <span class="c-icon">📞</span>
+        <a href="tel:+18764701268">+1 876-470-1268</a>
+      </li>
+      <li>
+        <span class="c-icon">🕗</span>
+        <span>Open every day until 8 PM</span>
+      </li>
+    </ul>
+    <a href="https://maps.google.com/?q=Spotless+Luxury+Auto+Care+CarWash+Ocho+Rios+Jamaica" target="_blank" class="map-cta">
+      View on Google Maps →
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Spotless Luxury Auto Care CarWash</div>
+  <div class="footer-copy">© 2026 · Ocho Rios, Jamaica</div>
+</footer>
+
+<script>
+  // ── Hamburger / Drawer ──
+  const ham = document.getElementById('hamburger');
+  const drawer = document.getElementById('drawer');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  });
+  function closeDrawer() {
+    ham.classList.remove('open');
+    drawer.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Scroll reveal ──
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // ── Testimonial dots + drag ──
+  const track = document.getElementById('testiTrack');
+  const dots = document.querySelectorAll('.testi-dot');
+
+  function updateDots() {
+    const cardW = track.firstElementChild.offsetWidth + 16;
+    const idx = Math.round(track.scrollLeft / cardW);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }
+  track.addEventListener('scroll', updateDots, { passive: true });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const cardW = track.firstElementChild.offsetWidth + 16;
+      track.scrollTo({ left: parseInt(dot.dataset.i) * cardW, behavior: 'smooth' });
+    });
+  });
+
+  // Drag to scroll
+  let isDragging = false, startX, scrollStart;
+  track.addEventListener('mousedown', e => {
+    isDragging = true; startX = e.pageX; scrollStart = track.scrollLeft;
+    track.classList.add('grabbing');
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    track.scrollLeft = scrollStart - (e.pageX - startX);
+  });
+  document.addEventListener('mouseup', () => { isDragging = false; track.classList.remove('grabbing'); });
+
+  // Auto-advance on mobile
+  let autoIdx = 0;
+  setInterval(() => {
+    if (document.hidden) return;
+    const cardW = track.firstElementChild.offsetWidth + 16;
+    const maxIdx = track.children.length - 1;
+    autoIdx = autoIdx >= maxIdx ? 0 : autoIdx + 1;
+    track.scrollTo({ left: autoIdx * cardW, behavior: 'smooth' });
+  }, 4000);
+</script>
+</body>
+</html>
